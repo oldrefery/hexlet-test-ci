@@ -4,6 +4,6 @@ test:
 install:
 	npm install
 
-test-coverage:
+coverage:
 	npm run coverage
 # END
