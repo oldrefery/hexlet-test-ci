@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const getPath = (fileName) => path.resolve(__dirname, '../__fixtures__/', fileName);
 
-const getNewVersion = () => {
+const getNewVersion = (type, major, minor, patch) => {
     let newVersion;
 
     switch (type) {
@@ -20,7 +20,7 @@ const getNewVersion = () => {
         default:
             throw new Error('unknown type for up version');
     }
-    
+
     return newVersion;
 }
 
