@@ -20,6 +20,7 @@ const upVersion = (fileName, type = 'patch') => {
     }
 
     let newVersion;
+
     const [major, minor, patch] = oldVersion.split('.');
 
     switch (type) {
