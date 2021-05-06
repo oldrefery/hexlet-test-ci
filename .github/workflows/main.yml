@@ -5,41 +5,22 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
+  no-locations:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [12]
     steps:
-      # Check-out repository under GitHub workspace
-      # https://github.com/actions/checkout
       - uses: actions/checkout@v2
-        # Step's name
-      - name: Use Node.js ${{ matrix.node-version }}
-        # Configures the node version used on GitHub-hosted runners
-        # https://github.com/actions/setup-node
+      - name: Use Node.js
         uses: actions/setup-node@v1
-        # The Node.js version to configure
         with:
           node-version: ${{ matrix.node-version }}
-          
-      - name: npm install, build
-        # Install and build project
-        run: |
-          make install
-        # Add environment variables
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile    
+      - name: Coverage to Codeclimate
+        uses: MartinNuc/codeclimate-action@2
         env:
-          CI: true
+          CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_REPORTER_ID }}
           
-      - name: Test & publish code coverage
-        run: |
-          make test-coverage
-          
-      - name: Test & publish code coverage
-        uses: paambaati/codeclimate-action@v2.7.5
-        env:
-          CC_TEST_REPORTER_ID: ${{secrets.TOKEN}}
-        with:
-          coverageCommand: npm run coverage
-          debug: true          
 
