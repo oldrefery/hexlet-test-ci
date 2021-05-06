@@ -4,6 +4,26 @@ const fs = require('fs');
 const path = require('path');
 const getPath = (fileName) => path.resolve(__dirname, '../__fixtures__/', fileName);
 
+const getNewVersion = () => {
+    let newVersion;
+
+    switch (type) {
+        case 'patch':
+            newVersion = `${major}.${minor}.${Number(patch) + 1}`;
+            break;
+        case 'minor':
+            newVersion = `${major}.${Number(minor) + 1}.0`;
+            break;
+        case 'major':
+            newVersion = `${Number(major) + 1}.0.0`;
+            break;
+        default:
+            throw new Error('unknown type for up version');
+    }
+    
+    return newVersion;
+}
+
 const upVersion = (fileName, type = 'patch') => {
     const fullFileName = getPath(fileName);
     let file;
@@ -19,22 +39,8 @@ const upVersion = (fileName, type = 'patch') => {
         throw new Error('Wrong content in file');
     }
 
-    let newVersion;
     const [major, minor, patch] = oldVersion.split('.');
-
-    switch (type) {
-        case 'patch':
-            newVersion = `${major}.${minor}.${Number(patch) + 1}`;
-            break;
-        case 'minor':
-            newVersion = `${major}.${Number(minor) + 1}.0`;
-            break;
-        case 'major':
-            newVersion = `${Number(major) + 1}.0.0`;
-            break;
-        default:
-            throw new Error('unknown type for up version');
-    }
+    const newVersion = getNewVersion(type, major, minor, patch);
 
     fs.writeFileSync(
         fullFileName,
