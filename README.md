@@ -23,3 +23,4 @@
 * [jest --coverage](https://jestjs.io/ru/docs/cli#--coverageboolean)
 * [paambaati/codeclimate-action](https://github.com/paambaati/codeclimate-action)
 * [Adding a workflow status badge](https://docs.github.com/en/actions/managing-workflow-runs/adding-a-workflow-status-badge)
+  [![Coverage](https://github.com/oldrefery/hexlet-test-ci/actions/workflows/main.yml/badge.svg?branch=main&event=push)](https://github.com/oldrefery/hexlet-test-ci/actions/workflows/main.yml)
