@@ -14,6 +14,7 @@ const upVersion = (fileName, type = 'patch') => {
     }
     const text = JSON.parse(file);
     const oldVersion = text?.version;
+
     if (!oldVersion) {
         throw new Error('Wrong content in file');
     }
