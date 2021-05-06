@@ -35,8 +35,11 @@ jobs:
         run: |
           make test-coverage
           
-#       - name: Upload coverage to Codecov
-#           uses: codecov/codecov-action@v1
-#           with:
-#             token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v2.7.5
+        env:
+          CC_TEST_REPORTER_ID: ${{secrets.TOKEN}}
+        with:
+          coverageCommand: npm run coverage
+          debug: true          
 
