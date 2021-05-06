@@ -34,14 +34,14 @@ jobs:
         # Install and build project
         run: |
           make install
-        # Add environment variables
-        env:
-          CI: true
-      - name: Test & publish code coverage
-        run: |
-          make test-coverage
-      - name: Upload coverage to Codecov
-          uses: codecov/codecov-action@v1
-          with:
-            token: ${{ secrets.CODECOV_TOKEN }}
+#         # Add environment variables
+#         env:
+#           CI: true
+#       - name: Test & publish code coverage
+#         run: |
+#           make test-coverage
+#       - name: Upload coverage to Codecov
+#           uses: codecov/codecov-action@v1
+#           with:
+#             token: ${{ secrets.CODECOV_TOKEN }}
 # END
