@@ -24,4 +24,4 @@ jobs:
           CI: true
       - name: Jest coverage
         run: |
-          npm coverage
+          jest --coverage
