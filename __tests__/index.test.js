@@ -4,7 +4,6 @@ const { upVersion } = require('../src/index.js');
 
 // BEGIN
 const getPath = (fileName) => path.resolve(__dirname, '../__fixtures__/', fileName);
-
 const getNewVersion = (fileName) => {
     const fullFileName = getPath(fileName);
     const text = fs.readFileSync(fullFileName, 'utf-8');
