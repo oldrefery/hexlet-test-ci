@@ -1,47 +1,49 @@
-name: CI
-
+name: build
 on:
-  - push
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+  push:
+    branches:
+      - master
+    tags:
+      - '!*' # Do not execute on tags
+    paths:
+      - src/*
+      - test/*
+      - '*.json'
+      - yarn.lock
+  pull_request:
+    paths:
+      - '!*.MD'
 jobs:
-  single-location:
-    runs-on: ubuntu-latest
+  test:
     strategy:
       matrix:
-        platform: [macOS-latest]
-        node-version: [15.x]
+        platform: [ ubuntu-latest, macOS-latest ]
+        node: [ '12', '10' ]
+    name: test/node ${{ matrix.node }}/${{ matrix.platform }}
+    runs-on: ${{ matrix.platform }}
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: npm install
-      - name: duplicate coverage result
-        run: npm coverage && cp ${{github.workspace}}/coverage/lcov.info ${{github.workspace}}/coverage/lcov2.info
-      - name: Coverage to Codeclimate
-        uses: MartinNuc/codeclimate-action@2
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_REPORTER_ID }}
-        with:
-          coverageLocations: |
-            ${{github.workspace}}/coverage/lcov.info:lcov
-            ${{github.workspace}}/coverage/lcov2.info:lcov
-#     steps:
-#       - uses: actions/checkout@v2
-#       - name: Use Node.js
-#         uses: actions/setup-node@v1
-#         with:
-#           node-version: ${{ matrix.node-version }}
-#       - name: Install dependencies
-#         run: yarn install --frozen-lockfile    
-#       - name: Coverage to Codeclimate
-#         uses: MartinNuc/codeclimate-action@2
-#         env:
-#           CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_REPORTER_ID }}
-#         with:
-#           coverageLocations: ${{github.workspace}}/coverage/lcov.info:lcov
-          
-
+    - uses: actions/checkout@master
+    - uses: actions/setup-node@master
+      with:
+        node-version: ${{ matrix.node }}
+    - run: npm install -g yarn
+    - run: yarn install
+    - run: yarn build
+    - run: yarn test
+  coverage:
+    needs: [ test ]
+    name: coverage
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-node@master
+      with:
+        node-version: '12'
+    - run: npm install -g yarn
+    - run: yarn install
+    - run: yarn build
+    - uses: paambaati/codeclimate-action@v2.2.4
+      env:
+        CC_TEST_REPORTER_ID: 5bda437334699c6987feb6cb140dcccaeff7be9094b29fa59eb9ffd89b36f93e
+      with:
+        coverageCommand: yarn coverage      
