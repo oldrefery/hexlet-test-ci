@@ -22,6 +22,7 @@ jobs:
         # The Node.js version to configure
         with:
           node-version: ${{ matrix.node-version }}
+          
       - name: npm install, build
         # Install and build project
         run: |
@@ -29,6 +30,13 @@ jobs:
         # Add environment variables
         env:
           CI: true
+          
       - name: Test & publish code coverage
         run: |
           make test-coverage
+          
+#       - name: Upload coverage to Codecov
+#           uses: codecov/codecov-action@v1
+#           with:
+#             token: ${{ secrets.CODECOV_TOKEN }}
+
