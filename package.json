@@ -5,6 +5,7 @@
     "nock": "^13.0.11"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "coverage": "jest --coverage"
   }
 }
