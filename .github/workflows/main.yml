@@ -5,7 +5,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  no-locations:
+  single-location:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -22,5 +22,7 @@ jobs:
         uses: MartinNuc/codeclimate-action@2
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_REPORTER_ID }}
+        with:
+          coverageLocations: ${{github.workspace}}/coverage/lcov.info:lcov
           
 
