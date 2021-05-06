@@ -2,7 +2,6 @@ const fs = require('fs');
 
 // BEGIN
 const path = require('path');
-
 const getPath = (fileName) => path.resolve(__dirname, '../__fixtures__/', fileName);
 
 const upVersion = (fileName, type = 'patch') => {
