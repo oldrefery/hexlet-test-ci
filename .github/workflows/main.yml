@@ -25,3 +25,7 @@ jobs:
       - name: Jest coverage
         run: |
           npm run coverage
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v2.7.5
+        env:
+          CC_TEST_REPORTER_ID: 5bda437334699c6987feb6cb140dcccaeff7be9094b29fa59eb9ffd89b36f93e
